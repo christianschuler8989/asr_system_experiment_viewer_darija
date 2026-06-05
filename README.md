@@ -2,6 +2,8 @@
 
 A static web application for native-speaker review of ASR-system transcriptions, hosted on GitHub Pages.
 
+Click here to check out the [current prototype](https://christianschuler8989.github.io/asr_system_experiment_viewer_darija/)
+
 ## Project Structure
 
 ```
@@ -155,7 +157,7 @@ git commit -m "Initial commit: ASR review tool"
 **Step 2: Create a repository on GitHub**
 
 1. Go to [github.com/new](https://github.com/new) and sign in.
-2. Give the repository a name (e.g. `asr-review-tool`).
+2. Create a new repository and give it a name (e.g. `asr_system_experiment_viewer_darija`).
 3. Set it to **Public** (required for free GitHub Pages hosting).
 4. Leave all other options unticked — do **not** add a README or `.gitignore` from the GitHub form, as the project already has both.
 5. Click **Create repository**.

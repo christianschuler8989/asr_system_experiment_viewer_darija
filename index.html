@@ -34,8 +34,14 @@
     </header>
 
     <div id="waveform-container">
-      <!-- wavesurfer.js renders here in M2 -->
-      <div id="waveform-placeholder">Audio player — coming in M2</div>
+      <!-- WaveSurfer renders its canvas directly into this div -->
+      <div id="waveform-placeholder">Decoding audio&hellip;</div>
+    </div>
+
+    <div id="sequence-annotation-area">
+      <label for="sequence-text">Sequence annotation</label>
+      <textarea id="sequence-text" dir="rtl"
+        placeholder="Full transcription or notes for this audio clip…"></textarea>
     </div>
 
     <main id="transcription-area">
@@ -64,17 +70,49 @@
 
   </div><!-- /#app -->
 
-  <!-- Tag dialog (shown on text selection in M4) -->
-  <div id="tag-dialog" hidden role="dialog" aria-label="Tag selection">
-    <button class="tag-btn" data-tag="correct">correct</button>
-    <button class="tag-btn" data-tag="incorrect">incorrect</button>
-    <button class="tag-btn" data-tag="dialectal">dialectal</button>
-    <button class="tag-btn" data-tag="unclear">unclear</button>
-    <button class="tag-btn" data-tag="other">other</button>
-    <button class="tag-btn tag-remove" data-tag="">&#x2715; remove</button>
+  <!-- Span annotation dialog — shown on text selection (M4) -->
+  <div id="tag-dialog" hidden role="dialog" aria-label="Span annotation">
+
+    <!-- Row 1: binary pairs -->
+    <div class="tag-row">
+      <div class="tag-pair-group">
+        <button class="tag-btn" data-group="correctness" data-value="correct">correct</button>
+        <button class="tag-btn" data-group="correctness" data-value="incorrect">incorrect</button>
+      </div>
+      <div class="tag-pair-group">
+        <button class="tag-btn" data-group="register" data-value="standard">standard</button>
+        <button class="tag-btn" data-group="register" data-value="dialectal">dialectal</button>
+      </div>
+    </div>
+
+    <!-- Row 2: loanword multi-select -->
+    <div class="tag-row">
+      <div class="tag-multi-group">
+        <span class="tag-group-label">loanword:</span>
+        <button class="tag-btn" data-group="loanword" data-value="French">French</button>
+        <button class="tag-btn" data-group="loanword" data-value="Spanish">Spanish</button>
+        <button class="tag-btn" data-group="loanword" data-value="English">English</button>
+        <button class="tag-btn" data-group="loanword" data-value="Other">other</button>
+      </div>
+    </div>
+
+    <!-- Row 3: flags + actions -->
+    <div class="tag-row tag-row-footer">
+      <div class="tag-flags">
+        <button class="tag-btn" data-group="flag" data-value="unclear">unclear</button>
+        <button class="tag-btn" data-group="flag" data-value="other">other</button>
+      </div>
+      <div class="tag-dialog-actions">
+        <button id="tag-remove-btn" hidden>Remove</button>
+        <button id="tag-done-btn">Done</button>
+      </div>
+    </div>
+
   </div>
 
-  <!-- js-yaml: YAML parser used to load configs/model_config.yaml in the browser -->
+  <!-- wavesurfer.js v7: audio waveform renderer -->
+  <script src="https://cdn.jsdelivr.net/npm/wavesurfer.js@7/dist/wavesurfer.min.js"></script>
+  <!-- js-yaml: YAML parser for configs/model_config.yaml -->
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
   <script src="app.js"></script>
 </body>

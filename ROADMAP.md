@@ -21,33 +21,34 @@
 - [x] App loads `data.json` and populates a file browser (filter by location)
 - [x] Selecting a file updates the main panel (transcription rows rendered, notes persisted)
 - [x] Reviewer name prompt on first visit; export/import annotations wired up
-- [ ] Deployed to GitHub Pages and accessible via URL
+- [x] Deployed to GitHub Pages and accessible via URL
 
 ---
 
 ## M2 — Audio + Waveform
 > Selected file plays audio with a visible waveform and moving playhead.
 
-- [ ] Waveform rendered via wavesurfer.js (v7, CDN); spectrogram is a stretch goal after core works
-- [ ] Play/pause control; playhead in sync with audio
-- [ ] Where word alignments exist: current word highlighted as audio plays (word alignment format confirmed: `{word, start, end}` in seconds)
+- [x] Waveform rendered via wavesurfer.js (v7, CDN); spectrogram is a stretch goal after core works
+- [x] Play/pause control; playhead in sync with audio
+- [x] Where word alignments exist: current word highlighted as audio plays (word alignment format confirmed: `{word, start, end}` in seconds)
 
 ---
 
 ## M3 — Transcription Display
 > All ASR system outputs shown clearly for the selected file.
 
-- [ ] One row per system, labelled by system name
-- [ ] Arabic text renders correctly (RTL, appropriate font)
-- [ ] Word-level playhead highlighting applied per row where alignment data exists
+- [x] One row per system, labelled by system name
+- [x] Arabic text renders correctly (RTL, appropriate font)
+- [x] Word-level playhead highlighting applied per row where alignment data exists
 
 ---
 
 ## M4 — Annotations
 > Reviewers can tag spans of text; data is exportable.
 
+- [ ] Annotate the entire audio sequence in a free-text field (e.g. user may provide the corrected transcription) directly at the top (under the waveform, above the first system-transcription)
 - [ ] Text selection within a row opens a tag dialog
-- [ ] Initial tag set: `correct` · `incorrect` · `dialectal` · `unclear` · `other`
+- [ ] Initial tag set: `correct` vs. `incorrect` & `standard` vs. `dialectal` & `loanword` (options: "Spanish", "French", "English", and "Other") & `unclear` & `other`
 - [ ] Annotations persisted in localStorage
 - [ ] Export → `annotations_<reviewer>_<date>.json`
 - [ ] Import previously exported annotation file
@@ -69,3 +70,6 @@
 ## Out of Scope for Pilot
 - Shared live annotation storage (e.g. Firestore)
 - Inter-annotator agreement metrics
+
+## Known Limitations / Future Work
+- **RTL waveform scrubbing**: The waveform is visually mirrored (right-to-left) and click-to-seek is correctly remapped. However, click-and-drag scrubbing is not supported in RTL mode — wavesurfer.js v7 has no native RTL option, and remapping continuous pointer-move events while the button is held would require a full custom drag handler. For the pilot, click-to-seek is sufficient.

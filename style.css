@@ -168,15 +168,36 @@ html, body {
   background: var(--color-waveform-bg);
   border-bottom: 1px solid #334155;
   flex-shrink: 0;
+  position: relative;  /* anchor for the placeholder overlay */
+  overflow: hidden;
+}
+
+/* Placeholder and error share the same centred-overlay style */
+/* Flip only the waveform canvas RTL so the playhead advances right→left,
+   matching Arabic text direction. Pointer-event remapping in app.js keeps
+   click-to-seek correct. The placeholder and error divs are siblings, not
+   children, of this element, so their text is never mirrored. */
+#waveform-wave {
+  transform: scaleX(-1);
+  width: 100%;
+}
+
+#waveform-placeholder,
+#waveform-error {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-#waveform-placeholder {
   font-size: 12px;
   color: #475569;
   font-style: italic;
+  pointer-events: none; /* don't block clicks on the waveform */
+}
+
+#waveform-error {
+  color: #f87171;
+  font-style: normal;
 }
 
 /* ── Transcription Area ──────────────────────────────────────────────────────── */
@@ -226,30 +247,113 @@ html, body {
 
 /* Word spans — colored by applyWordColors(); timing hooks for M2/M3 */
 .word { border-radius: 2px; padding: 0 2px; transition: background-color 0.08s; }
-.word-active { background-color: #fef9c3 !important; }
 
-/* ── Annotation Tags ─────────────────────────────────────────────────────────── */
-mark.tag-correct   { background: var(--tag-correct-bg);   color: var(--tag-correct-fg);   border-radius: 2px; }
-mark.tag-incorrect { background: var(--tag-incorrect-bg); color: var(--tag-incorrect-fg); border-radius: 2px; }
-mark.tag-dialectal { background: var(--tag-dialectal-bg); color: var(--tag-dialectal-fg); border-radius: 2px; }
-mark.tag-unclear   { background: var(--tag-unclear-bg);   color: var(--tag-unclear-fg);   border-radius: 2px; }
-mark.tag-other     { background: var(--tag-other-bg);     color: var(--tag-other-fg);     border-radius: 2px; }
+/* Current-word highlight: dark bg + white text so it stands out unambiguously
+   from all the hue-based word-agreement colors used by applyWordColors(). */
+.word-active {
+  background-color: #0f172a !important;
+  color: #f1f5f9 !important;
+}
 
-/* ── Tag Dialog ──────────────────────────────────────────────────────────────── */
+/* ── Sequence Annotation Area (Level 1 — above transcriptions) ───────────────── */
+#sequence-annotation-area {
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--color-border);
+  background: #fafbfc;
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#sequence-annotation-area label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+#sequence-text {
+  flex: 1;
+  padding: 5px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: var(--transcription-font-size);
+  font-family: inherit;
+  resize: none;
+  height: 48px;
+  color: var(--color-text);
+}
+#sequence-text:focus { outline: 2px solid var(--color-accent); outline-offset: 1px; }
+
+/* ── Tag Dialog (Level 2 — span annotations) ─────────────────────────────────── */
 #tag-dialog {
   position: fixed;
   z-index: 100;
   background: var(--color-panel);
   border: 1px solid var(--color-border);
-  border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-  padding: 6px;
+  border-radius: 8px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.14);
+  padding: 10px 12px;
   display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  max-width: 320px;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 340px;
 }
 
+.tag-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag-row-footer {
+  justify-content: space-between;
+  padding-top: 5px;
+  border-top: 1px solid var(--color-border);
+}
+
+.tag-flags     { display: flex; gap: 4px; }
+.tag-dialog-actions { display: flex; gap: 6px; }
+
+/* Binary pair: segmented-control appearance */
+.tag-pair-group {
+  display: inline-flex;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.tag-pair-group .tag-btn {
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-row-alt);
+  color: var(--color-text-muted);
+  min-width: 74px;
+  text-align: center;
+}
+.tag-pair-group .tag-btn:last-child { border-right: none; }
+
+/* Loanword multi-group */
+.tag-multi-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.tag-group-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-right: 2px;
+  user-select: none;
+}
+
+/* Base tag button */
 .tag-btn {
   padding: 4px 10px;
   border-radius: 4px;
@@ -257,14 +361,51 @@ mark.tag-other     { background: var(--tag-other-bg);     color: var(--tag-other
   font-size: 12px;
   cursor: pointer;
   background: var(--color-row-alt);
+  color: var(--color-text-muted);
+  transition: background 0.1s, color 0.1s, opacity 0.1s, font-weight 0.1s;
 }
-.tag-btn[data-tag="correct"]   { background: var(--tag-correct-bg);   color: var(--tag-correct-fg); }
-.tag-btn[data-tag="incorrect"] { background: var(--tag-incorrect-bg); color: var(--tag-incorrect-fg); }
-.tag-btn[data-tag="dialectal"] { background: var(--tag-dialectal-bg); color: var(--tag-dialectal-fg); }
-.tag-btn[data-tag="unclear"]   { background: var(--tag-unclear-bg);   color: var(--tag-unclear-fg); }
-.tag-btn[data-tag="other"]     { background: var(--tag-other-bg);     color: var(--tag-other-fg); }
-.tag-btn:hover                  { filter: brightness(0.95); }
-.tag-remove                     { color: var(--color-text-muted); }
+.tag-btn:hover { filter: brightness(0.93); }
+
+/* Selected states */
+.tag-btn[data-value="correct"].selected   { background: var(--tag-correct-bg);   color: var(--tag-correct-fg);   font-weight: 700; border-color: var(--tag-correct-fg); }
+.tag-btn[data-value="incorrect"].selected { background: var(--tag-incorrect-bg); color: var(--tag-incorrect-fg); font-weight: 700; border-color: var(--tag-incorrect-fg); }
+.tag-btn[data-value="standard"].selected  { background: #dbeafe; color: #1e40af; font-weight: 700; border-color: #3b82f6; }
+.tag-btn[data-value="dialectal"].selected { background: var(--tag-dialectal-bg); color: var(--tag-dialectal-fg); font-weight: 700; border-color: var(--tag-dialectal-fg); }
+.tag-btn[data-group="loanword"].selected  { background: #ede9fe; color: #5b21b6; font-weight: 700; border-color: #7c3aed; }
+.tag-btn[data-value="unclear"].selected   { background: var(--tag-unclear-bg);   color: var(--tag-unclear-fg);   font-weight: 700; border-color: var(--tag-unclear-fg); }
+.tag-btn[data-group="flag"][data-value="other"].selected { background: var(--tag-other-bg); color: var(--tag-other-fg); font-weight: 700; border-color: var(--tag-other-fg); }
+
+/* Non-selected binary partner — fade but keep clickable (to allow switching) */
+.tag-btn.faded { opacity: 0.3; }
+
+/* Dialog action buttons */
+#tag-remove-btn {
+  padding: 4px 10px; border-radius: 4px; font-size: 12px; cursor: pointer;
+  border: 1px solid #fca5a5; background: #fee2e2; color: #991b1b;
+}
+#tag-remove-btn:hover { background: #fecaca; }
+
+#tag-done-btn {
+  padding: 4px 14px; border-radius: 4px; font-size: 12px; cursor: pointer;
+  border: none; background: var(--color-accent); color: #fff;
+}
+#tag-done-btn:hover { background: var(--color-accent-hover); }
+
+/* ── Span Annotation Marks ───────────────────────────────────────────────────── */
+mark.span-annotation {
+  border-radius: 2px;
+  padding: 0 1px;
+  cursor: pointer;
+  font-style: normal;
+}
+mark.span-annotation:hover { filter: brightness(0.88); }
+mark.mark-correct   { background: var(--tag-correct-bg);   color: var(--tag-correct-fg); }
+mark.mark-incorrect { background: var(--tag-incorrect-bg); color: var(--tag-incorrect-fg); }
+mark.mark-dialectal { background: var(--tag-dialectal-bg); color: var(--tag-dialectal-fg); }
+mark.mark-standard  { background: #dbeafe; color: #1e40af; }
+mark.mark-loanword  { background: #ede9fe; color: #5b21b6; }
+mark.mark-unclear   { background: var(--tag-unclear-bg);   color: var(--tag-unclear-fg); }
+mark.mark-other     { background: var(--color-row-alt); color: var(--color-text-muted); outline: 1px solid var(--color-border); }
 
 /* ── Annotation Panel ────────────────────────────────────────────────────────── */
 #annotation-panel {
