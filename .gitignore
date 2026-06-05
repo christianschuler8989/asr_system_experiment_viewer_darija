@@ -1,0 +1,5 @@
+audio/audio_files_transcriptions/
+development_notes.md
+__pycache__/
+*.pyc
+.DS_Store

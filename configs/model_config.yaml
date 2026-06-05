@@ -1,0 +1,314 @@
+# =============================================================================
+# ASR Model Configuration - Single Source of Truth
+# =============================================================================
+
+models:
+
+  moulsot_v0_3_vllm:
+    code_id: moulsot_v0_3_vllm
+    name: "MoulSot v0.3"
+    version: "v0.3"
+    architecture: "End-to-end ASR (Qwen3-ASR fine-tune)"
+    publication: "Atlasia (2026) - MoulSot: a curated moroccan darija speech dataset and fine-tuned ASR model"
+    citationkey: "atlasia2026MoulSotCuratedMoroccan"
+    source: "https://huggingface.co/atlasia/moulsot.v0.3"
+    download: "huggingface-cli download atlasia/moulsot.v0.3 --local-dir models/moulsot_model"
+    short_name: "MoulSot v0.3"
+    label: "Moul"
+    notes: "Moroccan Darija ASR, strong on code-switching (Darija-French-Arabic)"
+    type: "Fine-tune"
+
+  moulsot_gemini:
+    code_id: moulsot_gemini
+    name: "MoulSot Gemini"
+    version: ""
+    architecture: ""
+    publication: "Atlasia (2026) - MoulSot: a curated moroccan darija speech dataset and fine-tuned ASR model"
+    citationkey: "atlasia2026MoulSotCuratedMoroccan"
+    source: ""
+    download: ""
+    short_name: "MoulSot Gemini"
+    label: "Moul-G"
+    notes: "Directly streamed by Avery to acquire the transcriptions"
+    type: "Fine-tune"
+
+  qwen3_asr_vllm:
+    code_id: qwen3_asr_vllm
+    name: "Qwen3-ASR"
+    version: ""
+    architecture: "End-to-end ASR"
+    publication: "Shi et al., (2026) - Qwen3-ASR Technical Report"
+    citationkey: "shi2026Qwen3ASRTechnicalReport"
+    source: "https://github.com/QwenLM/Qwen3-ASR"
+    download: ""
+    short_name: "Qwen3-ASR"
+    label: "Qwen3"
+    notes: "1.7B version with the forced aligner from the 0.6B version."
+    type: "Base model"
+
+  wav2vec2_xlsr:
+    code_id: wav2vec2_xlsr
+    name: "Wav2Vec2-Large-XLSR-53"
+    version: "large"
+    architecture: "Wav2Vec2 + CTC"
+    publication: "Conneau et al. (2020) - Unsupervised Cross-lingual Representation Learning for Speech"
+    citationkey: ""
+    source: "https://huggingface.co/facebook/wav2vec2-large-xlsr-53"
+    download: ""
+    short_name: "Wav2Vec2 XLSR"
+    label: "W2V2-XLSR"
+    notes: "The base facebook/wav2vec2-large-xlsr-53 is a pretrained-only model; it has no CTC head and cannot transcribe speech."
+    type: "Base model"
+
+  wav2vec2_xlsr_moroccan:
+    code_id: wav2vec2_xlsr_moroccan
+    name: "Wav2Vec2-Large-XLSR-Moroccan"
+    version: ""
+    architecture: "Wav2Vec2 + CTC"
+    publication: ""
+    citationkey: ""
+    source: "https://huggingface.co/othrif/wav2vec2-large-xlsr-moroccan"
+    download: ""
+    short_name: "W2V2 Moroccan"
+    label: "W2V2-M"
+    notes: ""
+    type: "Fine-tune"
+
+  wav2vec2_xlsr_moroccan_darija_basic:
+    code_id: wav2vec2_xlsr_moroccan_darija_basic
+    name: "Wav2Vec2-Large-XLSR-Moroccan-Darija"
+    version: ""
+    architecture: "Wav2Vec2 + CTC"
+    publication: "Ahmed et al., (2024) - MDVC corpus: empowering Moroccan Darija speech recognition"
+    citationkey: "ahmed2024MDVCCorpusEmpowering"
+    source: "https://huggingface.co/boumehdi/wav2vec2-large-xlsr-moroccan-darija"
+    download: ""
+    short_name: "W2V2 Darija"
+    label: "W2V2-MD"
+    notes: ""
+    type: "Fine-tune"
+
+  whisper_large_v3:
+    code_id: whisper_large_v3
+    name: "OpenAI Whisper Large"
+    version: "large"
+    architecture: "Encoder-Decoder Transformer"
+    publication: "Radford et al. (2022) - Robust Speech Recognition via Large-Scale Weak Supervision"
+    citationkey: "radford2022RobustSpeechRecognition"
+    source: "https://huggingface.co/openai/whisper-large"
+    download: ""
+    short_name: "Whisper Large"
+    label: "Whi-L"
+    notes: ""
+    type: "Base model"
+
+  whisper_turbo_v3:
+    code_id: whisper_turbo_v3
+    name: "OpenAI Whisper Large v3 Turbo"
+    version: "large-v3-turbo"
+    architecture: "Encoder-Decoder Transformer (distilled decoder)"
+    publication: ""
+    citationkey: ""
+    source: "https://huggingface.co/openai/whisper-large-v3-turbo"
+    download: ""
+    short_name: "Whisper Turbo"
+    label: "Whi-T"
+    notes: "Faster version of Whisper Large v3"
+    type: "Base model"
+
+  whisper_medium_v3:
+    code_id: whisper_medium_v3
+    name: "OpenAI Whisper Medium"
+    version: "medium"
+    architecture: "Encoder-Decoder Transformer"
+    publication: "Radford et al. (2022) - Robust Speech Recognition via Large-Scale Weak Supervision"
+    citationkey: "radford2022RobustSpeechRecognition"
+    source: "https://huggingface.co/openai/whisper-medium"
+    download: ""
+    short_name: "Whisper Medium"
+    label: "Whi-M"
+    notes: ""
+    type: "Base model"
+
+  whisper_small_v3:
+    code_id: whisper_small_v3
+    name: "OpenAI Whisper Small"
+    version: "small"
+    architecture: "Encoder-Decoder Transformer"
+    publication: "Radford et al. (2022) - Robust Speech Recognition via Large-Scale Weak Supervision"
+    citationkey: "radford2022RobustSpeechRecognition"
+    source: "https://huggingface.co/openai/whisper-small"
+    download: ""
+    short_name: "Whisper Small"
+    label: "Whi-S"
+    notes: ""
+    type: "Base model"
+
+  whisper_tiny_v3:
+    code_id: whisper_tiny_v3
+    name: "OpenAI Whisper Tiny"
+    version: "tiny"
+    architecture: "Encoder-Decoder Transformer"
+    publication: "Radford et al. (2022) - Robust Speech Recognition via Large-Scale Weak Supervision"
+    citationkey: "radford2022RobustSpeechRecognition"
+    source: "https://huggingface.co/openai/whisper-tiny"
+    download: ""
+    short_name: "Whisper Tiny"
+    label: "Whi-Tiny"
+    notes: ""
+    type: "Base model"
+
+  whisper_large_v3_darija_lora:
+    code_id: whisper_large_v3_darija_lora
+    name: "Whisper-Large-v3-Darija-LoRA"
+    version: "large-v3 + LoRA"
+    architecture: "Encoder-Decoder Transformer (LoRA fine-tune)"
+    publication: ""
+    citationkey: ""
+    source: "https://huggingface.co/Hafsa0/whisper-large-v3-darija-lora"
+    download: ""
+    short_name: "Whisper Darija LoRA"
+    label: "Whi-LD-L"
+    notes: "LoRA fine-tuned on Darija"
+    type: "Fine-tune"
+
+  whisper_medium_v3_darija:
+    code_id: whisper_medium_v3_darija
+    name: "Whisper-Medium-Darija"
+    version: "medium"
+    architecture: "Encoder-Decoder Transformer"
+    publication: ""
+    citationkey: ""
+    source: "https://huggingface.co/ychafiqui/whisper-medium-darija"
+    download: ""
+    short_name: "Whisper Medium Darija"
+    label: "Whi-MD"
+    notes: ""
+    type: "Fine-tune"
+
+  whisper_small_v3_darija:
+    code_id: whisper_small_v3_darija
+    name: "Whisper-Small-Darija"
+    version: "small"
+    architecture: "Encoder-Decoder Transformer"
+    publication: ""
+    citationkey: ""
+    source: "https://huggingface.co/KandirResearch/Whisper-Small-Darija"
+    download: ""
+    short_name: "Whisper Small Darija"
+    label: "Whi-SD"
+    notes: ""
+    type: "Fine-tune"
+
+  seamless_m4t_v2_large:
+    code_id: seamless_m4t_v2_large
+    name: "Seamless-M4T v2 Large"
+    version: "v2-large"
+    architecture: "UnitY2 (multitask speech/text)"
+    publication: "Meta (2023) - SeamlessM4T: Massively Multilingual & Multimodal Machine Translation"
+    citationkey: "communication2023SeamlessM4TMassivelyMultilingual"
+    source: "https://huggingface.co/facebook/seamless-m4t-v2-large"
+    download: "huggingface-cli download facebook/seamless-m4t-v2-large --local-dir models/seamless_m4t_v2_large"
+    requirements: ""
+    short_name: "Seamless-M4T"
+    label: "Seam-L"
+    notes: "ASR-only (no word-level timestamps from the transformers API - the timestamps capability is in Meta's original seamless_communication library but not in the HF transformers port)."
+    type: "Base model"
+
+  voxtral_s_1_0_24b_2507:
+    code_id: voxtral_s_1_0_24b_2507
+    name: "Voxtral Small 1.0 (24B) - 2507"
+    version: ""
+    architecture: "transformers (VoxtralForConditionalGeneration) or vLLM"
+    publication: ""
+    citationkey: ""
+    source: "https://huggingface.co/mistralai/Voxtral-Small-24B-2507"
+    download: ""
+    short_name: ""
+    label: "Voxtral"
+    notes: "No word-level alignment"
+    type: ""
+
+  gemma4_e4b_it:
+    code_id: gemma4_e4b_it 
+    name: "Gemma 4 E4B Instruct"
+    version: ""
+    architecture: "transformers (AutoModelForMultimodalLM)"
+    publication: ""
+    citationkey: ""
+    source: "https://huggingface.co/google/gemma-4-E4B-it"
+    download: ""
+    short_name: "Gemma4 E4B Instruct"
+    label: "Gemma4"
+    notes: "No alignment"
+    type: ""
+    
+  qwen3_omni_30b_a3b_it:
+    code_id: qwen3_omni_30b_a3b_it
+    name: "Qwen3-Omni 30B A3B Instruct"
+    version: ""
+    architecture: "transformers (Qwen3OmniMoeForConditionalGeneration) + qwen_omni_utils"
+    publication: ""
+    citationkey: ""
+    source: "https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Instruct"
+    download: ""
+    short_name: ""
+    label: "Qwen3-Omni"
+    notes: "No alignment"
+    type: ""
+    
+  cohere_transcribe_03_2026:
+    code_id: cohere_transcribe_03_2026
+    name: "Cohere Transcribe 03 2026"
+    version: ""
+    architecture: "transformers (AutoModelForSpeechSeq2Seq) with custom model.transcribe()"
+    publication: ""
+    citationkey: ""
+    source: "https://huggingface.co/CohereLabs/cohere-transcribe-03-2026"
+    download: ""
+    short_name: ""
+    label: "Cohe-Tr"
+    notes: "No alignment (explicitly stated)"
+    type: ""
+    
+  omni_asr_llm_7b:
+    code_id: omni_asr_llm_7b
+    name: "Omnilingual ASR: Open-Source Multilingual Speech Recognition for 1600+ Languages"
+    version: ""
+    architecture: "custom omnilingual-asr pip package"
+    publication: "Omnilingual ASR: Open-source multilingual speech recognition for 1600+ languages"
+    citationkey: "omnilingualasrteam2025omnilingualasropensourcemultilingual"
+    source: "https://github.com/facebookresearch/omnilingual-asr"
+    download: ""
+    short_name: "Omni ASR 7B"
+    label: "Omni-7"
+    notes: "No alignment"
+    type: ""
+    
+  nvidia_fast_conformer_hybrid_pcd_large_ar:
+    code_id: nvidia_fast_conformer_hybrid_pcd_large_ar
+    name: "NVIDIA FastConformer-Hybrid PCD Large (ar)"
+    version: ""
+    architecture: "NeMo (EncDecHybridRNNTCTCBPEModel)"
+    publication: ""
+    citationkey: ""
+    source: "https://huggingface.co/nvidia/stt_ar_fastconformer_hybrid_large_pcd_v1.0"
+    download: ""
+    short_name: ""
+    label: "Nvidia-PCD"
+    notes: "No word-level (NeMo has CTC alignment but not trivial)"
+    type: ""
+    
+  nvidia_fast_conformer_hybrid_pc_large_ar:
+    code_id: nvidia_fast_conformer_hybrid_pc_large_ar
+    name: "NVIDIA FastConformer-Hybrid PD Large (ar)"
+    version: ""
+    architecture: "NeMo (EncDecHybridRNNTCTCBPEModel)"
+    publication: ""
+    citationkey: ""
+    source: "https://huggingface.co/nvidia/stt_ar_fastconformer_hybrid_large_pc_v1.0"
+    download: ""
+    short_name: ""
+    label: "Nvidia-PC"
+    notes: " No word-level"
+    type: ""
